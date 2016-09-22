@@ -5,22 +5,16 @@
 <link rel="import" href="../t-image/t-image.html" />
 <link rel="import" href="../t-button/t-button.html" />
 <!--
-`t-feature` works with selectable content. The currently selected
-item is displayed in the control. If no item is selected, the `label` is
-displayed instead.
-The child element with the class `dropdown-content` will be used as the dropdown
-menu. It could be a `paper-menu` or element that triggers `iron-select` when
-selecting its children.
+`t-feature`
+
 Example:
-    <t-feature label="Your favourite pastry">
-      <paper-menu class="dropdown-content">
-        <paper-item>Croissant</paper-item>
-        <paper-item>Donut</paper-item>
-        <paper-item>Financier</paper-item>
-        <paper-item>Madeleine</paper-item>
-      </paper-menu>
-    </t-feature>
-This example renders a dropdown menu with 4 options.
+          <t-feature 
+            fit-image
+           primary-text="Very Big Primary Text. Very Big Primary Text.Very Big Primary Text."
+           secondary-text="Some What small"
+           title-image="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png"
+           image-height="50"
+           button-text="Awsome Button"> </t-feature>
 ### Styling
 The following custom properties and mixins are also available for styling:
 Custom property | Description | Default
@@ -29,15 +23,9 @@ Custom property | Description | Default
 
 `--feature-vertical-spacing` | The vertical spacing varible between two elements | `15px`
 
-`--t-feature-disabled` | A mixin that is applied to the element host when disabled | `{}`
-`--t-feature-ripple` | A mixin that is applied to the internal ripple | `{}`
-`--t-feature-button` | A mixin that is applied to the internal menu button | `{}`
-`--t-feature-input` | A mixin that is applied to the internal paper input | `{}`
-`--t-feature-icon` | A mixin that is applied to the internal icon | `{}`
+`--feature-primary-text` | A mixin that is applied to the primary text of the element | `{}`
+`--feature-secondary-text` | A mixin that is applied to the secondary text of the element | `{}`
 
-You can also use any of the `paper-input-container` and `paper-menu-button`
-style mixins and custom properties to style the internal input and menu button
-respectively.
 @group Paper Elements
 @element t-feature
 @hero hero.svg
@@ -76,7 +64,12 @@ respectively.
         display: -webkit-flex;
         display: flex;
       }
-
+      .primaryText {
+        @apply(--feature-primary-text);
+      }
+      .secondaryText {
+        @apply(--feature-secondary-text);
+      }
       .image-top ,
       .image-bottom{
         -ms-flex-direction: column;
@@ -140,10 +133,10 @@ respectively.
       </template>
       <div class$="content-container [[contentAlign]]">
         <template is="dom-if" if="[[primaryText]]">
-          <p>[[primaryText]]</p>
+          <p class="primaryText">[[primaryText]]</p>
         </template>
         <template is="dom-if" if="[[secondaryText]]">
-          <p>[[secondaryText]]</p>
+          <p class="secondaryText">[[secondaryText]]</p>
         </template>
         
 
