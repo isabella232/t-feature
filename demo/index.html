@@ -8,6 +8,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../t-shared-components/theme.html">
 
     <link rel="import" href="../t-feature.html">
 
@@ -16,11 +17,17 @@
   </head>
   <body>
 
-    <div class="vertical-section-container centered">
+    <div >
       <h3>Basic t-feature Demo</h3>
       <demo-snippet>
         <template>
-          <t-feature></t-feature>
+          <t-feature 
+            fit-image
+           primary-text="Very Big Primary Text. Very Big Primary Text.Very Big Primary Text."
+           secondary-text="Some What small"
+           title-image="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png"
+           image-height="50"
+           button-text="Awsome Button"> </t-feature>
         </template>
       </demo-snippet>
     </div>

@@ -1,13 +1,161 @@
+
 <link rel="import" href="../polymer/polymer.html">
 
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html" />
+<link rel="import" href="../t-image/t-image.html" />
+<link rel="import" href="../t-button/t-button.html" />
+<!--
+`t-feature` works with selectable content. The currently selected
+item is displayed in the control. If no item is selected, the `label` is
+displayed instead.
+The child element with the class `dropdown-content` will be used as the dropdown
+menu. It could be a `paper-menu` or element that triggers `iron-select` when
+selecting its children.
+Example:
+    <t-feature label="Your favourite pastry">
+      <paper-menu class="dropdown-content">
+        <paper-item>Croissant</paper-item>
+        <paper-item>Donut</paper-item>
+        <paper-item>Financier</paper-item>
+        <paper-item>Madeleine</paper-item>
+      </paper-menu>
+    </t-feature>
+This example renders a dropdown menu with 4 options.
+### Styling
+The following custom properties and mixins are also available for styling:
+Custom property | Description | Default
+
+`--feature-font-family` | A font-family variable you can assign to set font of the component | `inherit`,
+
+`--feature-vertical-spacing` | The vertical spacing varible between two elements | `15px`
+
+`--t-feature-disabled` | A mixin that is applied to the element host when disabled | `{}`
+`--t-feature-ripple` | A mixin that is applied to the internal ripple | `{}`
+`--t-feature-button` | A mixin that is applied to the internal menu button | `{}`
+`--t-feature-input` | A mixin that is applied to the internal paper input | `{}`
+`--t-feature-icon` | A mixin that is applied to the internal icon | `{}`
+
+You can also use any of the `paper-input-container` and `paper-menu-button`
+style mixins and custom properties to style the internal input and menu button
+respectively.
+@group Paper Elements
+@element t-feature
+@hero hero.svg
+@demo demo/index.html
+-->
 <dom-module id="t-feature">
   <template>
+    <style include="iron-flex"></style>
+    <style include="iron-flex-alignment"></style>
     <style>
       :host {
         display: block;
+        font-family: var(--primary-font-family, inherit);
+      }
+      .image {
+        display: block;
+        margin-bottom: var(--feature-vertical-spacing, 15px);
+      }
+
+      .image-container , .content-container{
+        -ms-flex: 1 1 0.000000001px;
+        -webkit-flex: 1;
+        flex: 1;
+        padding: var(--normal-spacing,10px);
+      }
+      p {
+        margin: var(--feature-vertical-spacing, 15px) 0;
+        font-size: var(--feature-font-size, 18px);
+        color: var(--feature-text-color, --primary-text-color);
+      }
+      p:first-of-type{
+        margin-top: 0;
+      }
+      .layout {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+      }
+
+      .image-top ,
+      .image-bottom{
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+      }
+      .image-left ,
+      .image-right{
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+      }
+      .image-bottom .image-container,
+      .image-right .image-container{
+        order:2;
+        -webkit-order:2;
+        -ms-order:2;
+        -moz-order:2;
+      }
+      .layout .center.content-container{
+        text-align: center;
+      }
+      .layout .right.content-container{
+        text-align: right;
+      }
+
+      .image-container{
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+      .layout.right .image-container{
+        -ms-flex-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+      }
+      .layout .image-container.center{
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+      }
+      .layout .image-container.left{
+        -ms-flex-pack: start;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+      }
+      .layout .image-container.right{
+        -ms-flex-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <div class$="layout [[_layoutClass]] [[imageVerticalAlign]]">
+      <template is="dom-if" if="[[titleImage]]">
+        <div class$="layout image-container [[imageAlign]] ">
+          <t-image class="image" src="[[titleImage]]" sizing="[[_imageSizing]]" height="[[imageHeight]]" width="[[imageWidth]]"></t-image>
+        </div>
+      </template>
+      <div class$="content-container [[contentAlign]]">
+        <template is="dom-if" if="[[primaryText]]">
+          <p>[[primaryText]]</p>
+        </template>
+        <template is="dom-if" if="[[secondaryText]]">
+          <p>[[secondaryText]]</p>
+        </template>
+        
+
+        <template is="dom-if" if="[[buttonText]]">
+          <t-button class="button primary" label="[[buttonText]]">prev</t-button>
+        </template>
+      </div>
+    </div>
+
+
+
+
   </template>
 
   <script>
@@ -16,11 +164,82 @@
       is: 't-feature',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 't-feature',
+
+        // Pass the src of the image to show a title Image if no src is provided the title image wont be visible
+        titleImage: String,
+
+        // Pass the src of the image to show a title Image if no src is provided the title image wont be visible
+        titleImage: String,
+
+        // Pass the title image height
+        imageHeight: {
+          type: Number,
+          value: 200
         },
+
+        // Pass the title image Width
+        imageWidth: {
+          type: Number,
+          value: 200
+        },
+
+        //set the Image position of the component possible values top | bottom | left | right
+        imagePosition: {
+          type: String,
+          value: 'top'
+        },
+
+        // Pass the alignment of the image possible value are start,end,center
+        imageVerticalAlign: {
+          type: String,
+          value: 'center'
+        },
+
+        // Set it to true to fit the entire image within the image height and width
+        fitImage: {
+          type: Boolean,
+          value: false
+        },
+
+        // it computes the Image sizing to contain and cover
+        _imageSizing: {
+          type: String,
+          computed: '_findImageSizing(fitImage)'
+        },
+
+        // Pass the alignment of the content (the texts and the button) possible value are center,left,right
+        contentAlign: {
+          type: String,
+          value: 'center'
+        },
+
+        // Pass the alignment of the image if its different from contentAlign
+        imageAlign: {
+          type: String,
+          value: 'center'
+        },
+
+        // Pass the src of the image to show a title Image if no src is provided the title image wont be visible
+        primaryText: String,
+
+        // Pass the src of the image to show a title Image if no src is provided the title image wont be visible
+        secondaryText: String,
+
+
+        _layoutClass: {
+          type: String,
+          computed: '_computeImagePosition(imagePosition)'
+        }
+
       },
+
+      _findImageSizing: function(fitImage){
+        return fitImage ? 'contain': 'cover';
+      },
+
+      _computeImagePosition: function(position){
+        return 'image-' + position;
+      }
 
     });
   </script>
