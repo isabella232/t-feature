@@ -13,6 +13,11 @@
     <link rel="import" href="../t-feature.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
+      .feature1{
+        --feature-button:{
+          background:red;
+        };
+      }
     </style>
   </head>
   <body>
@@ -22,12 +27,21 @@
       <demo-snippet>
         <template>
           <t-feature 
+          class="feature1"
             fit-image
            primary-text="Very Big Primary Text. Very Big Primary Text.Very Big Primary Text."
            secondary-text="Some What small"
            title-image="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png"
            image-height="50"
-           button-text="Awsome Button"> </t-feature>
+           action-text="Awsome Button"> </t-feature>
+          <t-feature 
+          class="feature2"
+            fit-image
+           primary-text="Very Big Primary Text. Very Big Primary Text.Very Big Primary Text."
+           secondary-text="Some What small"
+           title-image="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png"
+           image-height="50"
+           action-text="Awsome Button2"> </t-feature>
         </template>
       </demo-snippet>
     </div>

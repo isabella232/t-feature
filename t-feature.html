@@ -39,6 +39,10 @@ Custom property | Description | Default
       :host {
         display: block;
         font-family: var(--primary-font-family, inherit);
+
+        --t-button : {
+            @apply(--feature-button);
+        };
       }
       .image {
         display: block;
@@ -140,8 +144,10 @@ Custom property | Description | Default
         </template>
         
 
-        <template is="dom-if" if="[[buttonText]]">
-          <t-button class="button primary" label="[[buttonText]]">prev</t-button>
+        <template is="dom-if" if="[[actionText]]">
+          <a id="action" href$="[[actionUrl]]" tabindex="-1">
+            <t-button class="button" raised="[[!actionAsLink]]" label="[[actionText]]">prev</t-button>
+          </a>
         </template>
       </div>
     </div>
@@ -218,6 +224,24 @@ Custom property | Description | Default
         // Pass the src of the image to show a title Image if no src is provided the title image wont be visible
         secondaryText: String,
 
+        // Pass the label of the button.
+        actionText: String,
+
+        // Pass the url of the button you want to redirect the site to..
+        actionUrl: String,
+
+        // Set it to true to remove the shadow effect of the button and make it look like a link 
+        actionAsLink: {
+          type: Boolean,
+          value: false
+        },
+
+        // Set it to true to open the action url in new tab
+        actionInTab: {
+          type: Boolean,
+          value: false,
+          observer:'_setTargetBlank'
+        },
 
         _layoutClass: {
           type: String,
@@ -232,6 +256,17 @@ Custom property | Description | Default
 
       _computeImagePosition: function(position){
         return 'image-' + position;
+      },
+
+      _setTargetBlank: function(blank){
+        var action = this.$$('#action');
+        if(action){
+          if(blank){
+            action.setAttribute('target', '_blank');
+          }else{
+            action.removeAttribute('target');
+          }
+        }
       }
 
     });
